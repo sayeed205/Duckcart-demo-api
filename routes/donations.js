@@ -1,17 +1,16 @@
 const Express = require("express");
+const {
+  createDonation,
+  getDonationTo,
+  getDonations,
+} = require("../controllers/donationsController");
 
 const router = Express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ mssg: "GET all Donations" });
-});
+router.get("/", getDonations);
 
-router.get("/:id", (req, res) => {
-  res.json({ mssg: "GET a single Donation" });
-});
+router.get("/:toCreator", getDonationTo);
 
-router.post("/", (req, res) => {
-  res.json({ mssg: "POST a Donation" });
-});
+router.post("/", createDonation);
 
 module.exports = router;

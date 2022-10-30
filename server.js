@@ -7,9 +7,9 @@ const donationsRoute = require("./routes/donations");
 
 const app = Express();
 
+// middleware
 app.use(Express.json());
 
-// middleware
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
@@ -20,11 +20,13 @@ app.use("/api/donations", donationsRoute);
 
 const PORT = process.env.PORT;
 
+// Database connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
+    // listen for requests
     app.listen(PORT, () => {
-      console.log(`Connected to DB and listening to to ${PORT}`);
+      console.log(`Connected to DB and listening to ${PORT}`);
     });
   })
   .catch((err) => console.log(err));
