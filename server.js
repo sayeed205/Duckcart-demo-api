@@ -1,25 +1,30 @@
 const Express = require("express");
+const mongoose = require("mongoose");
 require("dotenv").config();
 
-const creatorRoute = require("./routes/creators");
+const creatorsRoute = require("./routes/creators");
+const donationsRoute = require("./routes/donations");
 
 const app = Express();
 
 app.use(Express.json());
 
+// middleware
 app.use((req, res, next) => {
-  res.status(200).json({
-    msg: "api is working",
-  });
-
   console.log(req.path, req.method);
   next();
 });
 
-app.use("/api/creators", creatorRoute);
+app.use("/api/creators", creatorsRoute);
+app.use("/api/donations", donationsRoute);
 
-const PORT = 3000;
+const PORT = process.env.PORT;
 
-app.listen(PORT || process.env.PORT, () => {
-  console.log(`listening to to ${PORT}`);
-});
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Connected to DB and listening to to ${PORT}`);
+    });
+  })
+  .catch((err) => console.log(err));

@@ -2,8 +2,8 @@ const Express = require("express");
 
 const router = Express.Router();
 
-const { getCreators } = require("../controllers/creatorsController");
-
-router.get("/", getCreators);
+router.get("/", (req, res) => {
+  res.json({ mssg: "GET all the creators" });
+});
 
 module.exports = router;
