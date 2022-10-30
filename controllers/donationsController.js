@@ -14,11 +14,9 @@ const getDonationTo = async (req, res) => {
   const donations = await Donation.find({ toCreator });
 
   if (donations.length === 0) {
-    return res
-      .status(404)
-      .json({
-        error: `Didn't find the creator ${toCreator} or you haven't made a donation to ${toCreator}`,
-      });
+    return res.status(404).json({
+      error: `Didn't find the creator ${toCreator} or you haven't made a donation to ${toCreator}`,
+    });
   }
 
   res.status(200).json(donations);
@@ -27,6 +25,17 @@ const getDonationTo = async (req, res) => {
 // create a donation
 const createDonation = async (req, res) => {
   const { fromCreator, toCreator, currency, amount, name, message } = req.body;
+
+  let emptyFields = [];
+  if (!fromCreator) emptyFields.push("fromCreator");
+  if (!toCreator) emptyFields.push("toCreator");
+  if (!currency) emptyFields.push("currency");
+  if (!amount) emptyFields.push("amount");
+
+  if (emptyFields.length > 0)
+    return res
+      .status(400)
+      .json({ error: "Please fill all the empty fields", emptyFields });
 
   // add document to db
   try {
