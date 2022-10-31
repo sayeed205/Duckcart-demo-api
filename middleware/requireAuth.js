@@ -14,7 +14,6 @@ const requireAuth = async (req, res, next) => {
 
   try {
     const { _id } = JWT.verify(token, process.env.JWT_SECRET);
-    console.log(_id);
     req.creator = await Creator.findOne({ _id }).select("username");
 
     next();
