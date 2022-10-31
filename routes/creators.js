@@ -1,9 +1,17 @@
 const Express = require("express");
 
+// controller functions
+const {
+  signupCreator,
+  loginCreator,
+} = require("../controllers/creatorsController");
+
 const router = Express.Router();
 
-router.get("/", (req, res) => {
-  res.json({ mssg: "GET all the creators" });
-});
+// login route
+router.post("/login", loginCreator);
+
+// signup route
+router.post("/signup", signupCreator);
 
 module.exports = router;
