@@ -2,6 +2,9 @@ const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 
+/**
+ * creators schema model for mongoose
+ */
 const creatorSchema = new Schema({
   username: {
     type: String,

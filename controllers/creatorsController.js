@@ -3,18 +3,27 @@ require("dotenv").config();
 
 const Creator = require("../models/creatorModel");
 
+/**
+ * This function takes id from mongodb and return the json web token
+ * @param {String} _id id from mongodb
+ * @returns signed token
+ */
 const createJWT = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "3d" });
 };
 
-// get all the creators
+/**
+ * return all the creator as response of 200
+ */
 const getCreators = async (req, res) => {
   const creators = await Creator.find({}, { password: 0 }); //get all the creator excluding password field
 
   res.status(200).json(creators);
 };
 
-// login creator
+/**
+ * This function Logs in a creator using username and password
+ */
 const loginCreator = async (req, res) => {
   const { username, password } = req.body;
 
@@ -29,7 +38,9 @@ const loginCreator = async (req, res) => {
   }
 };
 
-// signup creator
+/**
+ * This function signs up a creator using username and password
+ */
 const signupCreator = async (req, res) => {
   const { username, password, confirmPassword, profileURL, profession } =
     req.body;

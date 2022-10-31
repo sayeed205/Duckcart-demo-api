@@ -87,3 +87,13 @@ POST /api/creators/signup
 ![get all creators](./screenshots/getAllCreators.png)
 
 - Get all creators, public route
+
+## ENVIRONMENT VARIABLES
+
+- add environment variables in a .env file in the root directory
+
+```env
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
+JWT_SECRET= // any string
+```

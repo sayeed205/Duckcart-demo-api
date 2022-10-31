@@ -15,6 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
+// base routes
 app.use("/api/creators", creatorsRoute);
 app.use("/api/donations", donationsRoute);
 

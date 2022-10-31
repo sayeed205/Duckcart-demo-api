@@ -3,6 +3,9 @@ require("dotenv").config();
 
 const Creator = require("../models/creatorModel");
 
+/**
+ * this is a middleware to provide authentication to api routes
+ */
 const requireAuth = async (req, res, next) => {
   // authentication verification
   const { authorization } = req.headers;
