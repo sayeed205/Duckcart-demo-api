@@ -4,6 +4,7 @@ const Express = require("express");
 const {
   signupCreator,
   loginCreator,
+  getCreators,
 } = require("../controllers/creatorsController");
 
 const router = Express.Router();
@@ -13,5 +14,8 @@ router.post("/login", loginCreator);
 
 // signup route
 router.post("/signup", signupCreator);
+
+// get all the creators
+router.get("/", getCreators);
 
 module.exports = router;

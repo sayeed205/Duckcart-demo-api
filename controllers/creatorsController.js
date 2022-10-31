@@ -7,24 +7,41 @@ const createJWT = (_id) => {
   return jwt.sign({ _id }, process.env.JWT_SECRET, { expiresIn: "3d" });
 };
 
+// get all the creators
+const getCreators = async (req, res) => {
+  const creators = await Creator.find({}, { password: 0 });
+
+  res.status(200).json({ creators });
+};
+
 // login creator
 const loginCreator = async (req, res) => {
-  res.json({ mssg: "login user " });
+  const { username, password } = req.body;
+
+  try {
+    const creator = await Creator.login(username, password);
+
+    const token = createJWT(creator._id);
+
+    res.status(200).json({ username, token });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
 };
 
 // signup creator
 const signupCreator = async (req, res) => {
-  const { username, password, confirmPassword } = req.body;
-
-  if (username.length === 0)
-    return res.status(400).json({ error: "username needed" });
-  if (password.length === 0)
-    return res.status(400).json({ error: "password needed" });
-  if (confirmPassword.length === 0)
-    return res.status(400).json({ error: "confirm password needed" });
+  const { username, password, confirmPassword, profileURL, profession } =
+    req.body;
 
   try {
-    const creator = await Creator.signup(username, password, confirmPassword);
+    const creator = await Creator.signup(
+      username,
+      password,
+      confirmPassword,
+      profileURL,
+      profession
+    );
 
     // create jwt
     const token = createJWT(creator._id);
@@ -35,4 +52,4 @@ const signupCreator = async (req, res) => {
   }
 };
 
-module.exports = { loginCreator, signupCreator };
+module.exports = { loginCreator, signupCreator, getCreators };
