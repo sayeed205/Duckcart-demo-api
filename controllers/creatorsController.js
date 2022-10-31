@@ -9,9 +9,9 @@ const createJWT = (_id) => {
 
 // get all the creators
 const getCreators = async (req, res) => {
-  const creators = await Creator.find({}, { password: 0 });
+  const creators = await Creator.find({}, { password: 0 }); //get all the creator excluding password field
 
-  res.status(200).json({ creators });
+  res.status(200).json(creators);
 };
 
 // login creator

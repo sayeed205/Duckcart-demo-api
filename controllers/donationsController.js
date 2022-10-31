@@ -24,10 +24,9 @@ const getDonationTo = async (req, res) => {
 
 // create a donation
 const createDonation = async (req, res) => {
-  const { fromCreator, toCreator, currency, amount, name, message } = req.body;
+  const { toCreator, currency, amount, name, message } = req.body;
 
   let emptyFields = [];
-  if (!fromCreator) emptyFields.push("fromCreator");
   if (!toCreator) emptyFields.push("toCreator");
   if (!currency) emptyFields.push("currency");
   if (!amount) emptyFields.push("amount");
@@ -39,6 +38,7 @@ const createDonation = async (req, res) => {
 
   // add document to db
   try {
+    const fromCreator = req.creator.username;
     const donation = await Donation.create({
       fromCreator,
       toCreator,
