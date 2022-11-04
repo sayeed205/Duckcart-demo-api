@@ -1,6 +1,8 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
+const paginatedResults = require("./paginationController");
+
 const Creator = require("../models/creatorModel");
 
 /**
@@ -16,7 +18,9 @@ const createJWT = (_id) => {
  * return all the creator as response of 200
  */
 const getCreators = async (req, res) => {
-  const creators = await Creator.find({}, { password: 0 }); //get all the creator excluding password field
+  const options = { password: 0 };
+  const filters = {};
+  const creators = await paginatedResults(req, Creator, { options, filters });
 
   res.status(200).json(creators);
 };

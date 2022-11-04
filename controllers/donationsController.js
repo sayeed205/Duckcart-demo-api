@@ -1,10 +1,13 @@
+const paginatedResults = require("./paginationController");
 const Donation = require("../models/donationModel");
 
 /**
  * send response of 200 with all the donation of a logged in creator
  */
 const getDonations = async (req, res) => {
-  const donations = await Donation.find({}).sort({ createdAt: -1 });
+  const filters = {};
+  const options = {};
+  const donations = await paginatedResults(req, Donation, { filters, options });
 
   res.status(200).json(donations);
 };
@@ -18,13 +21,19 @@ const getDonations = async (req, res) => {
 const getDonationTo = async (req, res) => {
   const { toCreator } = req.params;
 
-  const donations = await Donation.find({ toCreator });
+  const filters = { toCreator };
+  const options = {};
+  const donations = await paginatedResults(req, Donation, { filters, options });
 
-  if (donations.length === 0) {
+  if (donations.currentPage > donations.totalPages && donations.totalPages > 0)
+    return res.status(404).json({
+      error: `You are trying to open page ${donations.currentPage} but total page ${donations.totalPages}`,
+    });
+
+  if (donations.results.length === 0)
     return res.status(404).json({
       error: `Didn't find the creator '${toCreator}' or you haven't made a donation to '${toCreator}'`,
     });
-  }
 
   res.status(200).json(donations);
 };

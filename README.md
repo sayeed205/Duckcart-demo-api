@@ -97,3 +97,24 @@ PORT=5000
 MONGO_URI=mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.0
 JWT_SECRET= // any string
 ```
+
+## UPDATE
+
+### Pagination
+
+- GET /api/donations
+- GET /api/donations/:toCreator
+- GET /api/creators
+
+use page and limit query params to paginate
+
+```text
+GET /api/donations?page=1&limit=10
+```
+
+- page: number - go to the page
+- limit: number - number of items per page
+
+**screenshots**
+
+![pagination](./screenshots/pagination.png)
